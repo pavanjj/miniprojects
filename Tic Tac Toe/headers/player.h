@@ -1,26 +1,21 @@
 #include <string>
 #include <vector>
 using namespace std;
-enum status
-{
-    LOST,
-    WON,
-    PENDING,
-    TIED
-};
+#include <./gameState.h>
 
 class player
 {
     string name;
     int id;
-    status playerStatus;
+    playerState playerStatus;
     vector<int> moveHistory;
     void fetchDetailsFromUser();
 
 public:
     player(int _id);
     int getId();
-    int nextMove(vector<vector<int>> &emptyCells);
-    void updatePlayerStatus(const status &updatedStatus);
-    status getPlayerStatus();
+    pair<int, int> nextMove(const vector<vector<int>> &gameBoard);
+    pair<int, int> calcNextMove(const vector<vector<int>> &gameBoard);
+    void updatePlayerStatus(const playerState &updatedStatus);
+    playerState getPlayerStatus();
 };

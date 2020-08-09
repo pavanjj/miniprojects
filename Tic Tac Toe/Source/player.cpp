@@ -9,7 +9,7 @@ player ::player(int _id) : id(_id)
 void player::fetchDetailsFromUser()
 {
     printLine("Please Enter your name : ");
-    cin << name;
+    cin >> name;
     printLine("Your Id is " + getId());
 }
 
@@ -18,17 +18,19 @@ int player::getId()
     return id;
 }
 
-void player::updatePlayerStatus(const status &updatedStatus)
+void player::updatePlayerStatus(const playerState &updatedStatus)
 {
     playerStatus = updatedStatus;
 }
 
-status player::getPlayerStatus()
+playerState player::getPlayerStatus()
 {
     return playerStatus;
 }
-
-int player::nextMove(const vector<int> &emptyCells)
+pair<int, int> calcNextMove(const vector<vector<int>> &gameBoard)
 {
-    calcNextMove(emptyCells);
+}
+pair<int, int> player::nextMove(const vector<vector<int>> &gameBoard)
+{
+    return calcNextMove(gameBoard);
 }
