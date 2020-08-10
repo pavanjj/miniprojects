@@ -17,8 +17,12 @@ int player::getId()
 {
     return id;
 }
+string player::getName()
+{
+    return name;
+}
 
-void player::updatePlayerStatus(const playerState &updatedStatus)
+void player::updatePlayerStatus(playerState updatedStatus)
 {
     playerStatus = updatedStatus;
 }
@@ -29,6 +33,11 @@ playerState player::getPlayerStatus()
 }
 pair<int, int> calcNextMove(const vector<vector<int>> &gameBoard)
 {
+    int row, col;
+    cout << "Enter row of next move(0-based) " << endl;
+    cin >> row;
+    cout << "Enter col of next move (0-based)" << endl;
+    cin >> col;
 }
 pair<int, int> player::nextMove(const vector<vector<int>> &gameBoard)
 {

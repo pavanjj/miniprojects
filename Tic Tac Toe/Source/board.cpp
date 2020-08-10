@@ -51,20 +51,22 @@ void Board::updateGameStatus(int pId, int row, int col)
     }
     else if (unoccupied == 0)
     {
-        setGameStatus(TIED);
+        setGameStatus(gameState::TIED);
     }
 }
 
-bool Board::selectACell(int pId, int row, int col)
+bool Board::selectACell(int pId, int row, int col, cellSelectionErrorCodes &errorCode)
 {
     if (pId <= 0)
     {
         cout << "playerId has to be greater than 0" << endl;
+        errorCode = PLAYERID_INVALID;
         return false;
     }
     if (status != ONGOING)
     {
         cout << "Game already Over, no more selections!" << endl;
+        errorCode = GAME_OVER;
         return false;
     }
     if (cells[row][col] == UNOCCUPIED)
@@ -76,6 +78,7 @@ bool Board::selectACell(int pId, int row, int col)
     }
     else
     {
+        errorCode = CELLOCCUPIED;
         cout << "Error in selecting the cell, row : " << row << ",col = " << col << " already selected" << endl;
         return false;
     }
@@ -109,5 +112,23 @@ void Board::resetBoard()
         {
             cells[i][j] = UNOCCUPIED;
         }
+    }
+}
+char Board::getSymbol(int playerId)
+{
+    if (playerId < 1)
+        return ' ';
+    return symbol[playerId - 1];
+}
+void Board::displayBoard()
+{
+    cout << "Current Board Status" << endl;
+    for (int i = 0; i < BOARD_SIZE; i++)
+    {
+        for (int j = 0; j < BOARD_SIZE; j++)
+        {
+            cout << getSymbol(cells[i][j]) << "|";
+        }
+        cout << endl;
     }
 }

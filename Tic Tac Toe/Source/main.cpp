@@ -1,15 +1,12 @@
 using namespace std;
 #include <../headers/player.h>
-
+#include <iostream>
+#include <gameController.h>
 void main()
 {
-    printLine("Main method for Tic Tac Toe.. starting up");
-    //
-    player p1();
-    player p2();
-
-    p2.getDetails();
-    gameController.getGameSettings();
-    gameController.initialize(p1, p2);
-    gameController.startTheGame();
+    cout << "Main method for Tic Tac Toe.. starting up" << endl;
+    gameController ticTacToe;
+    ticTacToe.initialise();
+    ticTacToe.startGame();
+    ticTacToe.displayResult();
 }

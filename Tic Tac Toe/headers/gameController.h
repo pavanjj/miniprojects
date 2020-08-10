@@ -6,9 +6,11 @@ class gameController
     Board gameBoard;
 
 public:
+    cellSelectionErrorCodes playerMoveErrorCode;
     void initialise();
     void startGame();
     gameState getGameStatus();
-    int getPlayerMove(int pId);
+    bool getPlayerMove(int pId);
     int getWinnerId();
+    void displayResult();
 };

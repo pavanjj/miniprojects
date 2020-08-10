@@ -14,8 +14,9 @@ class player
 public:
     player(int _id);
     int getId();
+    string getName();
     pair<int, int> nextMove(const vector<vector<int>> &gameBoard);
     pair<int, int> calcNextMove(const vector<vector<int>> &gameBoard);
-    void updatePlayerStatus(const playerState &updatedStatus);
+    void updatePlayerStatus(playerState updatedStatus);
     playerState getPlayerStatus();
 };

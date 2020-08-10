@@ -14,3 +14,9 @@ enum playerState
     PENDING,
     TIED
 };
+enum cellSelectionErrorCodes
+{
+    CELLOCCUPIED,
+    PLAYERID_INVALID,
+    GAME_OVER
+};

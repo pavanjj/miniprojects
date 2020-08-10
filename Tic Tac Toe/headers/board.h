@@ -15,6 +15,7 @@ class Board
     void setWinnerId(int pId);
     void updateGameStatus(int pId, int row, int col);
     void setGameStatus(gameState gameStatus);
+    char symbol[2];
 
 public:
     Board()
@@ -22,12 +23,16 @@ public:
         cells = vector<vector<int>>(BOARD_SIZE, vector<int>(BOARD_SIZE, UNOCCUPIED));
         unoccupied = BOARD_SIZE * BOARD_SIZE;
         winnerId = UNKNOWN;
-        status = ONGOING;
+        status = gameState::ONGOING;
         rowSums = vector<int>(BOARD_SIZE, 0);
         colSums = vector<int>(BOARD_SIZE, 0);
+        symbol[0] = 'O';
+        symbol[1] = 'X';
     }
+    char getSymbol(int playerId);
+    void displayBoard();
     const vector<vector<int>> &getBoard();
-    bool selectACell(int pId, int row, int col);
+    bool selectACell(int pId, int row, int col, cellSelectionErrorCodes &errorCode);
     gameState getGameStatus();
     int getWinnerId();
     void resetBoard();
