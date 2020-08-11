@@ -1,4 +1,4 @@
-#include <../headers/board.h>
+#include "../headers/board.h"
 
 const vector<vector<int>> &Board ::getBoard()
 {
@@ -7,43 +7,23 @@ const vector<vector<int>> &Board ::getBoard()
 
 void Board::updateGameStatus(int pId, int row, int col)
 {
-    rowSums[row] += pId;
-    colSums[col] += pId;
-
+    int weight = weights[pId - 1];
+    rowSums[row] += weight;
+    colSums[col] += weight;
+    if (row == col)
+        diagSum += weight;
+    if (row == BOARD_SIZE - 1 - col)
+        crossDiagSum += weight;
     bool winnerFound = false;
-    int winningSum = BOARD_SIZE * pId;
-    if (rowSums[row] == winningSum)
+    int winningSum = BOARD_SIZE * weight;
+    if (rowSums[row] == winningSum ||
+        colSums[col] == winningSum ||
+        diagSum == winningSum ||
+        crossDiagSum == winningSum)
     {
         winnerFound = true;
     }
-    else if (colSums[col] == winningSum)
-    {
-        winnerFound = true;
-    }
-    else
-    {
-        int diagSum = 0;
-        for (int i = 0; i < BOARD_SIZE; i++)
-        {
-            diagSum += cells[i][i];
-        }
-        if (diagSum == winningSum)
-        {
-            winnerFound = true;
-        }
-        else
-        {
-            int crossDiagSum = 0;
-            for (int i = BOARD_SIZE - 1; i >= 0; i--)
-            {
-                crossDiagSum += cells[BOARD_SIZE - 1 - i][i];
-            }
-            if (crossDiagSum == winningSum)
-            {
-                winnerFound = true;
-            }
-        }
-    }
+
     if (winnerFound)
     {
         setWinnerId(pId);
@@ -57,6 +37,12 @@ void Board::updateGameStatus(int pId, int row, int col)
 
 bool Board::selectACell(int pId, int row, int col, cellSelectionErrorCodes &errorCode)
 {
+    if (row >= BOARD_SIZE || col >= BOARD_SIZE)
+    {
+        cout << "Invalid Cell, try again" << endl;
+        errorCode = INVALID_CELL;
+        return false;
+    }
     if (pId <= 0)
     {
         cout << "playerId has to be greater than 0" << endl;

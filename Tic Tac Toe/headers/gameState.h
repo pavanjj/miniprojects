@@ -1,3 +1,5 @@
+#ifndef GAMESTATES
+#define GAMESTATES
 #define UNOCCUPIED -1
 
 enum gameState
@@ -12,11 +14,13 @@ enum playerState
     LOST,
     WON,
     PENDING,
-    TIED
+    DRAWN
 };
 enum cellSelectionErrorCodes
 {
     CELLOCCUPIED,
     PLAYERID_INVALID,
-    GAME_OVER
+    GAME_OVER,
+    INVALID_CELL
 };
+#endif

@@ -1,7 +1,12 @@
+
+#ifndef PLAYER
+#define PLAYER
+
 #include <string>
 #include <vector>
+#include <utility>
 using namespace std;
-#include <./gameState.h>
+#include "gameState.h"
 
 class player
 {
@@ -15,8 +20,9 @@ public:
     player(int _id);
     int getId();
     string getName();
-    pair<int, int> nextMove(const vector<vector<int>> &gameBoard);
-    pair<int, int> calcNextMove(const vector<vector<int>> &gameBoard);
+    std::pair<int, int> nextMove(const vector<vector<int>> &gameBoard);
+    std::pair<int, int> calcNextMove(const vector<vector<int>> &gameBoard);
     void updatePlayerStatus(playerState updatedStatus);
     playerState getPlayerStatus();
 };
+#endif

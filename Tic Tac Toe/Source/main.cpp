@@ -1,7 +1,6 @@
 using namespace std;
-#include <../headers/player.h>
 #include <iostream>
-#include <gameController.h>
+#include "../headers/gameController.h"
 void main()
 {
     cout << "Main method for Tic Tac Toe.. starting up" << endl;
