@@ -33,7 +33,8 @@ public:
 	bool addTemplate(qTemplate* questionTemplate);
 	bool addQuestion(questions* question);
 	bool genQuestionPaper(int templateId,  vector<string>& qList);
-	bool getQuestions(vector<int> questionIdsSet, int totalMarks, vector<int>& qIdList, int curIdx = 0);
+	bool getQuestionsList(attribDist& distMap, attribDist::iterator& curIter, bitset<BITSET_SIZE> selectedSet, int marks, vector<int>& questionIdList);
+	bool getQuestions(bitset<BITSET_SIZE>& questionIdsBitSet, int totalMarks, vector<int>& qIdList, int curIdx = 0);
 };
 
 #endif

@@ -22,7 +22,6 @@ public:
 		totalMarks = pTotalMarks;
 	}
 	attribDist getDistMap() const;
-	attribute getAttribute() const;
 	int getTotalMarks() const;
 	string getDetails() const;
 	string getAttributeAsStr(attribute attribType) const;

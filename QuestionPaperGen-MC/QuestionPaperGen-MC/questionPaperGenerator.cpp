@@ -1,48 +1,64 @@
 #include "questionPaperGenerator.h"
 
-bool questionPaperGenerator::genQuestionPaper(int templateId,vector<string>& qList)
+bool questionPaperGenerator::getQuestionsList(attribDist& distMap,attribDist::iterator& curIter,bitset<BITSET_SIZE> selectedSet,int marks,vector<int>& questionIdList)
 {
-	auto curTemplate = templates[templateId];
-	auto curAttribType = curTemplate->getAttribute();
-	auto curTotalMarks = curTemplate->getMarks();
-	if(!attribToQuestionMap.count(curAttribType))
+	if (curIter != distMap.begin())
+		++curIter;
+	if(curIter == distMap.end())
 	{
-		printError("No Questions Exist for given attribute type");
-		return false;
-	}
-	auto questionSet = attribToQuestionMap[curAttribType];
-	auto marksDist = curTemplate->getDistMap();
-
-	for(auto & curDist : marksDist)
-	{
-		int curMarks = (curDist.second * curTotalMarks) / 100;
-		vector<int> qIdList;
-		if(getQuestions(questionSet[curDist.first],curMarks,qIdList))
+		if (getQuestions(selectedSet, marks, questionIdList))
 		{
-			for (int i = 0; i < qIdList.size(); i++)
-				qList.push_back(questionList[qIdList[i]]->getText());
-		} else
+			return true;
+		}
+		else
 		{
 			printError("Insufficient Questions for given marks distribution, generation aborted");
 			return false;
 		}
+		
+	}
+	auto curAttribType = curIter->first;
+	for(auto iter = curIter->second.begin();iter != curIter->second.end();++iter)
+	{
+		int curMarks = (marks * iter->second) / 100;
+		const auto& curQuestionBitSet = attribToQuestionBitMap[curAttribType][iter->first];
+		if (!getQuestionsList(distMap, curIter, selectedSet & curQuestionBitSet, curMarks, questionIdList))
+			return false;
 	}
 	return true;
 }
 
-bool questionPaperGenerator::getQuestions(vector<int> questionIdsSet, int totalMarks, vector<int>& qIdList,int curIdx)
+bool questionPaperGenerator::genQuestionPaper(int templateId,vector<string>& qList)
 {
-	if (totalMarks == 0)
-		return true;
-	if (totalMarks < 0 || curIdx >= questionIdsSet.size())
+	auto curTemplate = templates[templateId];
+	auto curTotalMarks = curTemplate->getTotalMarks();
+	auto marksDistMap = curTemplate->getDistMap();
+	bitset<BITSET_SIZE> selectedSet;
+	selectedSet.set();
+	vector<int> qIdList;
+	auto startIter = marksDistMap.begin();
+	if(!getQuestionsList(marksDistMap,startIter,selectedSet,curTotalMarks,qIdList))
+	{
+		printError("Could Not Generate the Question Paper");
 		return false;
-	//select
-	int curMarks = questionList[questionIdsSet[curIdx]]->getMarks();
-	qIdList.push_back(questionIdsSet[curIdx]);
-	if (getQuestions(questionIdsSet, totalMarks-curMarks,qIdList,curIdx+1))
-		return true;
-	qIdList.pop_back();
-	//reject
-	if (getQuestions(questionIdsSet, totalMarks, qIdList, curIdx + 1))
+	}
+	
+	return true;
+}
+
+bool questionPaperGenerator::getQuestions(bitset<BITSET_SIZE>& questionIdsBitSet, int totalMarks, vector<int>& qIdList,int curIdx)
+{
+	//if (totalMarks == 0)
+	//	return true;
+	//if (totalMarks < 0 || curIdx >= questionIdsSet.size())
+	//	return false;
+	////select
+	//int curMarks = questionList[questionIdsSet[curIdx]]->getMarks();
+	//qIdList.push_back(questionIdsSet[curIdx]);
+	//if (getQuestions(questionIdsSet, totalMarks-curMarks,qIdList,curIdx+1))
+	//	return true;
+	//qIdList.pop_back();
+	////reject
+	//if (getQuestions(questionIdsSet, totalMarks, qIdList, curIdx + 1))
 		return true;
 }

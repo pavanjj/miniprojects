@@ -46,16 +46,8 @@ bool qTemplate::mergeTemplate(qTemplate* pInputTemplate)
             return false;
 		}        
 	}
-    vector<vector<string>> tempStr,inputDistributionVec;
-    int newSize = marksDistribution.size() * inputMarks.size();
-    vector<int> newMarksVec(newSize);
-    vector<string> newDistVec(newSize);
-	
-	for(int i=0;i<tempStr.size();i++)
-	{
-        for (int j = 0; j < inputDistributionVec.size(); j++)
-        {
-        	combine(newDistVec,tempStr[i],inputDistributionVec[j],newMarksVec,marksDistribution[i],inputMarks[j])
-        }
-	}
+    for (auto& inpMapIter : inputDistMap)
+    {
+        attribDistMap[inpMapIter.first] = inpMapIter.second;
+    }   
 }
