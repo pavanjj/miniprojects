@@ -5,27 +5,28 @@ enum class attribute
 {
 	SUBJECT,
 	DIFFICULTY,
-	AUTHOR
+	AUTHOR,
+	INVALID
 } ;
 
-typedef unordered_map<string, int> marksDistMap;
+typedef unordered_map<string, int> marksDist;
+typedef unordered_map<attribute, marksDist> attribDist;
 class qTemplate
 {
-	int marks;
-	attribute attribType;
-	marksDistMap marksDist;
+	int totalMarks;
+	attribDist attribDistMap;	
 public:
-	qTemplate(int _marks,attribute _attribType,marksDistMap& _marksDist)
-	{
-		attribType = _attribType;
-		marksDist = _marksDist;
-		marks = _marks;
+	qTemplate(int pTotalMarks,attribute _attribType,marksDist& _marksDist)
+	{		
+		attribDistMap[_attribType] = _marksDist;
+		totalMarks = pTotalMarks;
 	}
-	marksDistMap getDistMap() const;
+	attribDist getDistMap() const;
 	attribute getAttribute() const;
-	int getMarks() const;
+	int getTotalMarks() const;
 	string getDetails() const;
-	string getAttributeAsStr() const;
+	string getAttributeAsStr(attribute attribType) const;
+	bool mergeTemplate(qTemplate* newTemplate);
 };
 
 
